@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "move_damage_class": "physical",
+    "name": "normal",
+    "names": [
+      {
+        "language": "en",
+        "name": "Normal"
+      },
+      {
+        "language": "ja",
+        "name": "ノーマル"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "move_damage_class": "physical",
+    "name": "fighting",
+    "names": [
+      {
+        "language": "en",
+        "name": "Fighting"
+      },
+      {
+        "language": "ja",
+        "name": "かくとう"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "move_damage_class": "physical",
+    "name": "flying",
+    "names": [
+      {
+        "language": "en",
+        "name": "Flying"
+      },
+      {
+        "language": "ja",
+        "name": "ひこう"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "move_damage_class": "physical",
+    "name": "poison",
+    "names": [
+      {
+        "language": "en",
+        "name": "Poison"
+      },
+      {
+        "language": "ja",
+        "name": "どく"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "move_damage_class": "physical",
+    "name": "ground",
+    "names": [
+      {
+        "language": "en",
+        "name": "Ground"
+      },
+      {
+        "language": "ja",
+        "name": "じめん"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "move_damage_class": "physical",
+    "name": "rock",
+    "names": [
+      {
+        "language": "en",
+        "name": "Rock"
+      },
+      {
+        "language": "ja",
+        "name": "いわ"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "move_damage_class": "physical",
+    "name": "bug",
+    "names": [
+      {
+        "language": "en",
+        "name": "Bug"
+      },
+      {
+        "language": "ja",
+        "name": "むし"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "move_damage_class": "physical",
+    "name": "ghost",
+    "names": [
+      {
+        "language": "en",
+        "name": "Ghost"
+      },
+      {
+        "language": "ja",
+        "name": "ゴースト"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "move_damage_class": "physical",
+    "name": "steel",
+    "names": [
+      {
+        "language": "en",
+        "name": "Steel"
+      },
+      {
+        "language": "ja",
+        "name": "はがね"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "move_damage_class": "special",
+    "name": "fire",
+    "names": [
+      {
+        "language": "en",
+        "name": "Fire"
+      },
+      {
+        "language": "ja",
+        "name": "ほのお"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "move_damage_class": "special",
+    "name": "water",
+    "names": [
+      {
+        "language": "en",
+        "name": "Water"
+      },
+      {
+        "language": "ja",
+        "name": "みず"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "move_damage_class": "special",
+    "name": "grass",
+    "names": [
+      {
+        "language": "en",
+        "name": "Grass"
+      },
+      {
+        "language": "ja",
+        "name": "くさ"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "move_damage_class": "special",
+    "name": "electric",
+    "names": [
+      {
+        "language": "en",
+        "name": "Electric"
+      },
+      {
+        "language": "ja",
+        "name": "でんき"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "move_damage_class": "special",
+    "name": "psychic",
+    "names": [
+      {
+        "language": "en",
+        "name": "Psychic"
+      },
+      {
+        "language": "ja",
+        "name": "エスパー"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "move_damage_class": "special",
+    "name": "ice",
+    "names": [
+      {
+        "language": "en",
+        "name": "Ice"
+      },
+      {
+        "language": "ja",
+        "name": "こおり"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "move_damage_class": "special",
+    "name": "dragon",
+    "names": [
+      {
+        "language": "en",
+        "name": "Dragon"
+      },
+      {
+        "language": "ja",
+        "name": "ドラゴン"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "move_damage_class": "special",
+    "name": "dark",
+    "names": [
+      {
+        "language": "en",
+        "name": "Dark"
+      },
+      {
+        "language": "ja",
+        "name": "あく"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "move_damage_class": null,
+    "name": "fairy",
+    "names": [
+      {
+        "language": "en",
+        "name": "Fairy"
+      },
+      {
+        "language": "ja",
+        "name": "フェアリー"
+      }
+    ]
+  }
+]
