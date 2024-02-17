@@ -2,6 +2,10 @@
 
 dr-pokemon は[ポケモンクイズ](https://quizgenerator.net/quizhoster/files/da570e40c908928e6c94eb1e7eaf812c/) を解くための Agent です。[PokéAPI](https://pokeapi.co/) のデータを使って回答します。
 
+## Requirements
+
+* Python 3.10+
+
 ## 使い方
 
 .env ファイルに OPENAI_API_KEY を記入します。
@@ -27,7 +31,7 @@ source .venv/bin/activate
 仮想環境で `main.py` を実行します。
 
 ```bash
-(.venv) >python main.py
+(.venv) >python3 main.py
 ```
 
 問題文を入力し、Enter キーを押すと質問に回答します。例えば:

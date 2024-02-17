@@ -1,13 +1,10 @@
 import json
 import math
 from dotenv import load_dotenv
-from langchain.agents import AgentExecutor
-from langchain.agents.format_scratchpad import format_to_openai_function_messages
-from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
-from langchain.chat_models import ChatOpenAI
+from langchain.agents import AgentExecutor, create_openai_functions_agent
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.tools import tool
-from langchain.tools.render import format_tool_to_openai_function
+from langchain_openai import ChatOpenAI
 
 
 def read_json_file(file_name: str) -> list[dict]:
@@ -69,7 +66,7 @@ def calculate_pokemon_max_damage(
     defense = calculate_stat(level, pokemon["defense"], 0, 0, 1)
     special_defense = calculate_stat(level, pokemon["special-defense"], 0, 0, 1)
     max_damage = 0
-    for pokemon_move in pokemon["name"]:
+    for pokemon_move in pokemon["moves"]:
         move = get_move(pokemon_move["move"])
         if move is None:
             continue
@@ -98,10 +95,11 @@ def get_ability(ability_name: str) -> dict | None:
     :param ability_name: 特性の名前
     :return: 特性の情報
     """
-    ability_name = ability_name.upper()
     for ability in abilities:
+        if ability["name"] == ability_name:
+            return ability
         for name in ability["names"]:
-            if name["name"].upper() == ability_name:
+            if name["name"].upper() == ability_name.upper():
                 return ability
     return None
 
@@ -112,10 +110,11 @@ def get_move(move_name: str) -> dict | None:
     :param move_name_or_id: 技の名前
     :return: 技の情報
     """
-    move_name = move_name.upper()
     for move in moves:
+        if move["name"] == move_name:
+            return move
         for name in move["names"]:
-            if name["name"].upper() == move_name:
+            if name["name"].upper() == move_name.upper():
                 return move
     return None
 
@@ -126,14 +125,15 @@ def get_pokemon(pokemon_name: str) -> dict | None:
     :param pokemon_name: ポケモンの名前
     :return: ポケモンの情報
     """
-    pokemon_name = pokemon_name.upper()
     is_mega = pokemon_name.startswith("メガ")
     if is_mega:
         pokemon_name = pokemon_name[2:]
 
     for pokemon in pokemons:
+        if pokemon["name"] == pokemon_name:
+            return pokemon
         for name in pokemon["names"]:
-            if name["name"].upper() == pokemon_name:
+            if name["name"].upper() == pokemon_name.upper():
                 if is_mega:
                     pokemon_mega_name = pokemon["name"] + "-mega"
                     for pokemon_mega in pokemons:
@@ -175,10 +175,11 @@ def get_type(type_name: str) -> dict | None:
     :param type_name: タイプの名前
     :return: タイプの情報
     """
-    type_name = type_name.upper()
     for type in types:
+        if type["name"] == type_name:
+            return type
         for name in type["names"]:
-            if name["name"].upper() == type_name:
+            if name["name"].upper() == type_name.upper():
                 return type
     return None
 
@@ -223,6 +224,7 @@ def is_reproducible_combination(pokemon_name: str, combination_name: str) -> boo
         for pokemon_move in pokemon["moves"]:
             move = get_move(pokemon_move["move"])
             if move is None:
+                print(f'{pokemon_move["move"]} not found')
                 continue
             print(f'move: {move["name"]}({move["type"]})')
             if move["type"] == type["name"]:
@@ -240,63 +242,34 @@ tools = [
     get_pokemon_info,
     is_reproducible_combination,
 ]
-
 llm = ChatOpenAI(model="gpt-4", temperature=0)
-llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
 
-MEMORY_KEY = "chat_history"
+from langchain.schema import HumanMessage, SystemMessage
+
 prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
             """次の問題に答えてください。
-ツールを使用して問題に答えてください。
-
-ファンの間では、それぞれの能力のことをアルファベット(英語)で省略表記することがあります。
-
-H: HP
-A: こうげき
-B: ぼうぎょ
-C: とくこう
-D: とくぼう
-S: すばやさ
-
-「H-A-B-C-D-S」の順で、数値のみをハイフンで繋げて表記することも多い。
-
-問題: """,
+        ツールを使用して問題に答えてください。
+        ファンの間では、それぞれの能力のことをアルファベット(英語)で省略表記することがあります。
+        H: HP
+        A: こうげき
+        B: ぼうぎょ
+        C: とくこう
+        D: とくぼう
+        S: すばやさ
+        「H-A-B-C-D-S」の順で、数値のみをハイフンで繋げて表記することも多い。
+        問題: """,
         ),
-        MessagesPlaceholder(variable_name=MEMORY_KEY),
-        (
-            "user",
-            """{input}""",
-        ),
+        ("user", """{input}"""),
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ]
 )
 
-
-chat_history = []
-
-agent = (
-    {
-        "input": lambda x: x["input"],
-        "agent_scratchpad": lambda x: format_to_openai_function_messages(
-            x["intermediate_steps"]
-        ),
-        "chat_history": lambda x: x["chat_history"],
-    }
-    | prompt
-    | llm_with_tools
-    | OpenAIFunctionsAgentOutputParser()
-)
+agent = create_openai_functions_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 while True:
     question = input("問題を入力してください: ")
-    result = agent_executor.invoke({"input": question, "chat_history": chat_history})
-    # chat_history.extend(
-    #     [
-    #         HumanMessage(content=question),
-    #         AIMessage(content=result["output"]),
-    #     ]
-    # )
+    result = agent_executor.invoke({"input": question})
