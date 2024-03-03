@@ -244,8 +244,6 @@ tools = [
 ]
 llm = ChatOpenAI(model="gpt-4", temperature=0)
 
-from langchain.schema import HumanMessage, SystemMessage
-
 prompt = ChatPromptTemplate.from_messages(
     [
         (
