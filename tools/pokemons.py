@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 
 languages = ["en", "ja"]
@@ -69,6 +70,6 @@ def write_to_json(data: list, file_path: str):
         json.dump(data, json_file, ensure_ascii=False, indent=2)
 
 
-file_path = "data/pokemons.json"
+file_path = os.path.join(os.path.dirname(__file__), "../data/pokemons.json")
 data = get_data()
 write_to_json(data, file_path)
